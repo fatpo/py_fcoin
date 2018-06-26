@@ -1,15 +1,16 @@
+# coding=utf-8
 import json
-from websocket import create_connection
-from threading import Thread
-import time
 
-class WebsocketClient():
-    def __init__(self, ws_url="wss://api.fcoin.com/v2/ws",subprotocols=["binary","base64"]):
+from websocket import create_connection
+
+
+class WebsocketClient(object):
+    def __init__(self, ws_url="wss://api.fcoin.com/v2/ws", subprotocols=["binary", "base64"]):
         self.stop = False
         self.url = ws_url
         self.ws = create_connection(self.url)
 
-    def sub(self,topics):
+    def sub(self, topics):
         self.open()
         subParams = json.dumps(topics)
         self.ws.send(subParams)
@@ -23,13 +24,13 @@ class WebsocketClient():
             try:
                 msg = json.loads(self.ws.recv())
             except Exception as e:
-                #print e
+                # print e
                 break
             else:
                 self.handle(msg)
 
     def handle(self, msg):
-        #inherit method
+        # inherit method
         print(msg)
 
     def close(self):

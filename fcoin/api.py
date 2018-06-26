@@ -1,3 +1,4 @@
+# coding=utf-8
 import collections
 
 import requests
@@ -6,7 +7,7 @@ from .WebsocketClient import WebsocketClient
 from .auth import HMACAuth
 
 
-class Api():
+class Api(object):
     def __init__(self):
         self.session = requests.session()
 
@@ -45,7 +46,7 @@ class Api():
         return self.session.get(self.api_url).json()
 
 
-class Orders():
+class Orders(object):
     def __init__(self, session):
         self.api_base_url = "https://api.fcoin.com/v2/orders"
         self.session = session
@@ -83,6 +84,9 @@ class Orders():
             params = params + param + "&"
         self.api_url = self.api_base_url + "?" + params[:-1]
 
+        print self.api_url
+        print sorted_param
+
         r = self.session.post(self.api_url, json=sorted_param)
         return r.json()
 
@@ -91,7 +95,7 @@ class Orders():
         return self.session.post(cancel_api_url.format(order_id=order_id)).json()
 
 
-class Market():
+class Market(object):
     def __init__(self, session):
         self.session = session
         self.api_base_url = "https://api.fcoin.com/v2/market"
